@@ -1,0 +1,13 @@
+from typing import Union, Iterator, Tuple
+import cst
+from cst import interface
+import cst.interface
+import cst.results
+import os
+import sys
+import numpy as np
+from cst.interface import Project
+
+# Import functions and variables from length_optimisations_py_CST
+from length_optimisations_py_CST import get_1d_gamma_paths, result1d_to_numpy, lengths, widths, separations, a, b, t, L, ratios
+
