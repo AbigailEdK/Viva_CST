@@ -20,7 +20,8 @@ a = 5.6896
 b = 2.8448
 t = 0.2
 L = 5.0
-ratios = np.array([0.3, 0.7])
+# ratios = np.array([0.3, 0.7])
+ratios = np.arange(0.1, 1.1, 0.1)  # More granular ratios from 0.1 to 1.0 with step of 0.1
 
 # Working variables
 widths = ratios * a
