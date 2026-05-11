@@ -1,0 +1,42 @@
+{
+    "parameters": [
+        {
+            "expr": "5",
+            "name": "L_resonator",
+            "value": "5"
+        },
+        {
+            "descr": "length of coupling ridge",
+            "expr": "2",
+            "name": "L_coupling",
+            "value": "2"
+        },
+        {
+            "expr": "1",
+            "name": "d_resonator",
+            "value": "1"
+        },
+        {
+            "descr": "gap ditance between coupling ridges",
+            "expr": "1.2",
+            "name": "d_coupling",
+            "value": "1.2"
+        },
+        {
+            "expr": "5.6896",
+            "name": "a",
+            "value": "5.6896"
+        },
+        {
+            "expr": "2.8448",
+            "name": "b",
+            "value": "2.8448"
+        },
+        {
+            "expr": "2.3",
+            "name": "w_ridge",
+            "value": "2.3"
+        }
+    ],
+    "version": 1
+}

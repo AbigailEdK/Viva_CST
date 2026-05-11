@@ -1,3 +1,11 @@
+# *************************************************************************
+# This file can only be run once the length has been determined using 
+# length_optimisations_py_CST.py and the lengths array has been populated with the correct values. 
+# 
+# It is mainly used for plotting the results of the optimisations, but it can also be used to save
+# the two mode frequency results in a more accessible format (e.g. csv) if needed.
+# *************************************************************************
+
 from typing import Union, Iterator, Tuple
 
 import cst
@@ -12,24 +20,24 @@ from cst.interface import Project
 file_dir = os.path.dirname(os.path.dirname(__file__))
 project_dir = os.path.join(file_dir, "Version 1")
 
-# *************************************************************************
-# Module-level variables (can be imported and accessed from other files)
-# *************************************************************************
+
+
 # Model parameters
 a = 5.6896
 b = 2.8448
 t = 0.2
 L = 5.0
-ratios = np.array([0.3, 0.7])
-# ratios = np.arange(0.1, 1.1, 0.1)  # More granular ratios from 0.1 to 1.0 with step of 0.1
+# ratios = np.array([0.3, 0.7])
+ratios = np.arange(0.1, 1.1, 0.1)  # More granular ratios from 0.1 to 1.0 with step of 0.1
 
 # Working variables
 widths = ratios * a
 separations = ratios * b
 lengths = np.zeros((len(ratios), len(ratios)))  # This will be populated in main()
 
-first_mode_f_cut = np.zeros((len(ratios), len(ratios)))  # This will be populated in main()
-second_mode_f_cut = np.zeros((len(ratios), len(ratios)))  # This will be populated in main()
+
+first_mode_frequencies = np.zeros((len(ratios), len(ratios)))  # This will be populated in main()
+second_mode_frequencies = np.zeros((len(ratios), len(ratios)))  # This will be populated in main()
 
 # *************************************************************************
 # Functions
@@ -49,21 +57,6 @@ def get_1d_gamma_paths(mod: Union["cst.interface.Project.Model3D", "cst.results.
                 if tree_item_comp[1].startswith("Port Information"):
                     # if tree_item_comp[2].startswith("Gamma") and not tree_item.endswith("Gamma"):
                     if tree_item_comp[2].startswith("Gamma") and not tree_item.endswith("Gamma"):
-                        yield tree_item
-
-def get_1d_f_cut_paths(mod: Union["cst.interface.Project.Model3D", "cst.results.ResultModule"]) -> Iterator[str]:
-    """
-    Gets all 1D F-Cut results from prj and yields them.
-    """
-    tree_items = mod.get_tree_items()
-    for tree_item in tree_items:
-        tree_item_comp = tree_item.split("\\")
-        # F-Cut results have at least 3 "TreePathComponents"
-        if len(tree_item_comp) > 2:
-            if tree_item_comp[0].startswith("1D Results"):
-                if tree_item_comp[1].startswith("Port Information"):
-                    # if tree_item_comp[2].startswith("F-Cut") and not tree_item.endswith("F-Cut"):
-                    if tree_item_comp[2].startswith("Cutoff Frequency") and not tree_item.endswith("Cutoff Frequency"):
                         yield tree_item
 
 
@@ -155,19 +148,6 @@ def main():
             print(f"Calculated resonator length for half wavelength at {frequencies[frequency_index]:.2f} GHz: {lengths[i, j]:.4f} mm")
 
 
-            frequency_item_path = next(get_1d_f_cut_paths(mod), None)  # Returns None if no items
-            print(f"Processing data from tree item: {frequency_item_path}")
-            fresult_id = prj.model3d.ResultTree.GetResultIDsFromTreeItem(frequency_item_path)
-            
-            if len(fresult_id) > 0:
-                fresult_mode1 = prj.model3d.ResultTree.GetResultFromTreeItem(frequency_item_path, fresult_id[0])
-                first_mode_f_cut[i, j] = fresult_mode1.GetData()
-                print(f"First mode cutoff frequency: {first_mode_f_cut[i, j]} GHz")
-            
-            if len(fresult_id) > 1:
-                fresult_mode2 = prj.model3d.ResultTree.GetResultFromTreeItem(frequency_item_path, fresult_id[1])
-                second_mode_f_cut[i, j] = fresult_mode2.GetData()
-                print(f"Second mode cutoff frequency: {second_mode_f_cut[i, j]} GHz")
 
             # for item_path in first_path:
             #     print(f"Processing data from tree item: {item_path}")
@@ -193,11 +173,7 @@ def main():
             #     lengths[i, j] = np.pi / propagation_constant_at_30ghz
             #     print(f"Calculated resonator length for half wavelength at {frequencies[frequency_index]:.2f} GHz: {lengths[i, j]:.4f} mm")
             
-    print(lengths)    
-    print("First mode cutoff frequencies (GHz):")
-    print(first_mode_f_cut)
-    print("Second mode cutoff frequencies (GHz):")
-    print(second_mode_f_cut)   
+    print(lengths)       
 
     # save the project
     prj.save()

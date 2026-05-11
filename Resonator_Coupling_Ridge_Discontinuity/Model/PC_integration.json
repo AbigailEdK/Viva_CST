@@ -1,0 +1,44 @@
+{
+   "execution": {
+      "classname": "SMAPowerByEmagHPCFrameReduced",
+      "libname": "SMAPowerByEmagUI"
+   },
+   "inputVariables": [
+      {
+         "name": "L_resonator",
+         "type": "float",
+         "value": 5.0
+      },
+      {
+         "name": "L_coupling",
+         "type": "float",
+         "value": 2.0
+      },
+      {
+         "name": "d_resonator",
+         "type": "float",
+         "value": 1.0
+      },
+      {
+         "name": "d_coupling",
+         "type": "float",
+         "value": 1.2
+      },
+      {
+         "name": "a",
+         "type": "float",
+         "value": 5.6896
+      },
+      {
+         "name": "b",
+         "type": "float",
+         "value": 2.8448
+      },
+      {
+         "name": "w_ridge",
+         "type": "float",
+         "value": 2.3
+      }
+   ],
+   "outputVariables": []
+}
